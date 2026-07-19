@@ -1,6 +1,10 @@
 # Pick or Pass
 
-Aplicação única com a experiência **Princeso ou Viking?**, frontend mobile-first/PWA e backend Node/Express. A pontuação e as categorias permanecem no servidor.
+Aplicação social mobile-first/PWA com a marca **Pick or Pass** em primeiro plano e três experiências integradas:
+
+- **Princeso ou Viking?** — teste ácido com pontuação privada no servidor.
+- **Oráculo do Amor** — escolhas guiadas e card ilustrado gerado no navegador.
+- **Dilema Diário** — uma escolha por dia e placar comunitário.
 
 ## Executar
 

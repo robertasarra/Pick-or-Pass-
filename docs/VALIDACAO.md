@@ -7,6 +7,13 @@
 - `test/`: testes determinísticos.
 - `legacy/`: ZIP original preservado.
 
+## Experiências da landing v3
+
+- Logo Pick or Pass em evidência na entrada.
+- Três rotas de experiência no mesmo aplicativo: Princeso ou Viking, Oráculo do Amor e Dilema Diário.
+- Cards compartilháveis não expõem respostas privadas.
+- Oráculo produz composição ilustrada em Canvas a partir das escolhas e inclui aviso de entretenimento.
+
 ## Limites verdadeiros
 
 - A geração de perguntas por Gemini ainda não é habilitada: o acervo local prepara todas as rodadas. O Gemini é usado apenas para variar o diagnóstico final quando configurado.
