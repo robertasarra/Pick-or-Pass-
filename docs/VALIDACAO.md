@@ -14,6 +14,14 @@
 - Cards compartilháveis não expõem respostas privadas.
 - Oráculo produz composição ilustrada em Canvas a partir das escolhas e inclui aviso de entretenimento.
 
+## Regras de variação recreativa
+
+- Princeso ou Viking embaralha alternativas, evita a rodada anterior e volta ao acervo completo sem esgotar o fallback.
+- Oráculo sorteia 6 entre 12 perguntas, embaralha as alternativas e evita repetir a rodada imediatamente anterior.
+- Diagnósticos do Oráculo combinam títulos, textos e memes a partir das escolhas.
+- Dilema Diário muda pergunta e alternativas conforme a data.
+- Resultado exatamente 100% Princeso recebe a chancela `FOGE BINO QUE E ROUBADA` no resultado e no card baixável.
+
 ## Limites verdadeiros
 
 - A geração de perguntas por Gemini ainda não é habilitada: o acervo local prepara todas as rodadas. O Gemini é usado apenas para variar o diagnóstico final quando configurado.
