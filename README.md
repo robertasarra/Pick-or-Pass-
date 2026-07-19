@@ -20,6 +20,7 @@ Acesse `http://localhost:3000`. Sem `GEMINI_API_KEY`, a partida continua com o a
 
 - `GEMINI_API_KEY`: chave do Google AI Studio, usada somente no servidor.
 - `GEMINI_MODEL`: padrão `gemini-2.5-flash`.
+- `GEMINI_IMAGE_MODEL`: padrão `gemini-2.5-flash-image`, usado para o retrato fictício do Oráculo.
 - `PORT`: padrão `3000`.
 - `SESSION_TTL_MS`: validade da sessão, padrão 30 minutos.
 
@@ -28,6 +29,7 @@ Acesse `http://localhost:3000`. Sem `GEMINI_API_KEY`, a partida continua com o a
 - Sessões de resultado são mantidas no servidor, expiram e só podem ser usadas uma vez.
 - O cliente envia apenas IDs; o servidor resolve o gabarito.
 - Chave ausente, timeout e erros do Gemini acionam fallback silencioso.
+- O retrato do Oráculo é sempre fictício, adulto e recreativo; nunca representa uma pessoa real ou previsão.
 - Rate limiting, limite do corpo e cabeçalhos Helmet estão habilitados.
 - Nenhuma resposta pessoal é persistida.
 

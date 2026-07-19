@@ -13,6 +13,7 @@
 - Três rotas de experiência no mesmo aplicativo: Princeso ou Viking, Oráculo do Amor e Dilema Diário.
 - Cards compartilháveis não expõem respostas privadas.
 - Oráculo produz composição ilustrada em Canvas a partir das escolhas e inclui aviso de entretenimento.
+- Quando o Gemini Image está disponível, o Oráculo insere na bola de cristal um retrato fictício de homem adulto gerado a partir do perfil sanitizado; falhas usam rosto ilustrado local.
 
 ## Regras de variação recreativa
 
@@ -20,7 +21,7 @@
 - Oráculo sorteia 6 entre 12 perguntas, embaralha as alternativas e evita repetir a rodada imediatamente anterior.
 - Diagnósticos do Oráculo combinam títulos, textos e memes a partir das escolhas.
 - Dilema Diário muda pergunta e alternativas conforme a data.
-- Resultado exatamente 100% Princeso recebe a chancela `FOGE BINO QUE E ROUBADA` no resultado e no card baixável.
+- Resultado exatamente 100% Princeso recebe a chancela `FOGE BINO QUE É ROUBADA !!` no resultado e no card baixável.
 
 ## Limites verdadeiros
 

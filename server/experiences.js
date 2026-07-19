@@ -2,18 +2,18 @@ import { createHash, randomUUID } from 'node:crypto';
 
 const shuffle=(items,rng=Math.random)=>{const a=[...items];for(let i=a.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
 export const oracleBank=[
- ['pace','Qual energia você quer encontrar no próximo capítulo?',['Calma que não parece desinteresse','Faísca com responsabilidade','Aventura com endereço conhecido']],
- ['communication','A mensagem que você gostaria de receber é…',['“Quero te ver. Que dia funciona?”','“Chegou bem? Me avisa.”','“Vi isso e lembrei de você.”']],
- ['partnership','No seu futuro ideal, a pessoa…',['divide o remo e o planejamento','torce pelas suas conquistas','aparece também nos dias comuns']],
- ['boundary','Qual luxo emocional não pode faltar?',['Respeito sem negociação','Consistência sem caça ao tesouro','Conversa sem tribunal']],
- ['mood','Escolha o cenário do primeiro bom sinal:',['Café, risada e zero joguinho','Passeio simples que vira memória','Um plano inesperado que realmente acontece']],
- ['symbol','Escolha um símbolo para o que vem aí:',['Sol: clareza','Lua: profundidade','Estrela: surpresa boa']],
+ ['pace','Qual energia você encomenda para o próximo capítulo?',['Calma sem cara de “tanto faz”','Faísca com certificado de responsabilidade','Aventura que sabe usar calendário']],
+ ['communication','Qual mensagem faria o Oráculo parar de revirar os olhos?',['“Quero te ver. Que dia funciona?”','“Chegou bem? Me avisa.”','“Vi isso e lembrei de você — e não era cobrança.”']],
+ ['partnership','No seu futuro ideal, o bonito da bola de cristal…',['traz o próprio remo e lê o mapa','torce pelas suas conquistas sem abrir competição','aparece também numa terça-feira sem filtro']],
+ ['boundary','Qual luxo emocional entra no pacote premium?',['Respeito sem cupom de desconto','Consistência sem caça ao tesouro','Conversa sem defesa de 48 páginas']],
+ ['mood','Escolha o primeiro sinal que não exige perícia criminal:',['Café, risada e zero joguinho','Passeio simples que realmente sai do WhatsApp','Um plano com data, hora e existência comprovada']],
+ ['symbol','Escolha o símbolo que vai piscar na bola de cristal:',['Sol: clareza, finalmente','Lua: profundidade sem drama em 12 atos','Estrela: surpresa boa, não plot twist tóxico']],
  ['weekend','O sábado perfeito do próximo capítulo tem…',['plano confirmado antes do banho','improviso que não vira sumiço','descanso junto sem obrigação de performance']],
  ['support','Quando sua vida ficar corrida, você quer alguém que…',['pergunte como ajudar','respeite seu espaço sem desaparecer','traga leveza sem minimizar nada']],
  ['humor','Qual tipo de humor combina com sua futura história?',['piada interna que nasce no cotidiano','meme enviado na hora certa','risada que não usa você como alvo']],
- ['conflict','Na primeira discordância, o sinal verde seria…',['escutar antes de responder','assumir a própria parte','propor solução sem placar de culpa']],
- ['rhythm','Que ritmo você prefere para uma conexão crescer?',['devagar e consistente','intenso, mas com conversa clara','natural, sem joguinhos de prazo']],
- ['surprise','Qual surpresa o futuro deveria entregar?',['alguém que realmente aparece','um convite com data, hora e local','uma conversa que deixa tudo mais simples']]
+ ['conflict','Na primeira discordância, qual milagre básico você escolhe?',['escutar antes de responder','assumir a própria parte sem chamar advogado imaginário','propor solução sem placar de culpa']],
+ ['rhythm','Em qual velocidade o romance não capota na curva?',['devagar e consistente','intenso, mas com cinto de conversa clara','natural, sem cronômetro de joguinho']],
+ ['surprise','Qual surpresa faria a bola de cristal soltar confete?',['alguém que realmente aparece','um convite com data, hora, local e CEP','uma conversa que simplifica em vez de criar três temporadas']]
 ].map(([id,text,options])=>({id,text,options:options.map((text,i)=>({id:`${id}-${i}`,text}))}));
 
 export function createOracleRound(recentIds=new Set(),rng=Math.random){let pool=oracleBank.filter(q=>!recentIds.has(q.id));if(pool.length<6)pool=oracleBank;return shuffle(pool,rng).slice(0,6).map(q=>({...q,roundId:randomUUID(),options:shuffle(q.options,rng)}));}
