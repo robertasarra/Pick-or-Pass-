@@ -1,0 +1,13 @@
+.oracle-analysis{padding:0;justify-content:center;background:#04072b}
+.oracle-wait{position:relative;width:100%;height:100vh;max-height:920px;overflow:hidden}
+.oracle-wait>img{width:100%;height:100%;object-fit:cover}
+.oracle-wait:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 58%,#05072d 87%)}
+.oracle-loader{position:absolute;z-index:2;left:50%;top:52%;width:92px;height:92px;transform:translate(-50%,-50%);border-radius:50%;background:#080d1faa;box-shadow:0 0 45px #ff5f9b}
+.oracle-loader:before,.oracle-loader:after,.oracle-loader i{content:"";position:absolute;inset:8px;border:8px solid transparent;border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite}
+.oracle-loader:after{inset:24px;border-top-color:var(--gold);animation-duration:.7s;animation-direction:reverse}
+.oracle-loader i{inset:-14px;border-width:4px;border-top-color:var(--cyan);animation-duration:1.6s}
+.oracle-wait-copy{position:absolute;z-index:2;left:24px;right:24px;bottom:34px;text-align:center;text-shadow:0 2px 12px #000}
+.oracle-wait-copy h2{margin:0;font-size:28px}
+.oracle-wait-copy p{margin:8px 0;color:#f4d9ff}
+.oracle-wait-copy small{color:#bfc9e5}
+@media(prefers-reduced-motion:reduce){.oracle-loader:before,.oracle-loader:after,.oracle-loader i{animation:none}}
