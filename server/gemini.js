@@ -10,5 +10,40 @@ const portraitLooks=['cabelo preto curto e barba cheia bem cuidada','cabelo cast
 const portraitOutfits=['camisa social azul-marinho aberta sobre camiseta branca','suéter de tricô cor mostarda','jaqueta jeans sobre camiseta clara','blazer casual cinza com camiseta preta','camisa de linho clara','camisa polo verde-escura'];
 const portraitScenes=['uma rua urbana com prédios desfocados','uma orla de praia no fim de tarde','um café aconchegante com luzes quentes','um parque arborizado','uma cidade histórica com um ônibus vermelho desfocado ao fundo','uma marina com barcos desfocados ao fundo'];
 export async function generateOraclePortrait(profile,{timeout=25_000}={}){const prompt=`Fotografia de retrato realista, enquadramento quadrado do busto com o rosto centralizado, de um homem adulto fictício e inexistente, com aparência claramente entre 28 e 45 anos, sorrindo simpático para a câmera, com ${pick(portraitLooks)}, vestindo ${pick(portraitOutfits)}, em ${pick(portraitScenes)}, luz natural suave e fundo desfocado. Variação ${profile.seed%997}. A pessoa é 100% gerada por IA. Não retrate pessoa real, celebridade, texto, marca, logotipo, nudez, erotização, uniforme, estereótipo cultural ou aparência de menor de idade.`;return generateImage(prompt,timeout);}
-const pvScene=s=>s.princesoPercent===100?'um homem adulto boiando relaxado numa boia inflável de flamingo, com drink na mão e óculos escuros, ao lado de uma canoa vazia com dois remos, no meio de um mar de tempestade':s.vikingPercent>=75?'um homem adulto com capacete de viking de festa remando com garra e sorriso confiante uma canoa de madeira em mar de ondas altas, com respingos épicos':s.vikingPercent>=50?'um homem adulto remando uma canoa com um remo só e expressão de esforço pela metade, enquanto o segundo remo descansa embrulhado como presente ao lado dele':'um homem adulto sentado como passageiro na canoa, mexendo no celular com o remo intocado no colo, com o posto do remador vazio em pleno mar agitado';
-export async function generatePvScene(scores,{timeout=25_000}={}){const prompt=`Fotografia realista com humor de sátira: ${pvScene(scores)}. Luz dramática de tempestade, estilo cinematográfico, cores intensas, composição horizontal com a cena centralizada. O homem tem entre 30 e 45 anos, é fictício e inexistente, com expressão cômica. Variação ${Math.floor(Math.random()*997)}. Sem texto, sem marca, sem logotipo, sem emoji, sem pessoa real ou celebridade, sem nudez, sem menor de idade.`;return generateImage(prompt,timeout);}
+const sceneDirections = [
+  'Na água, use a distribuição dos remos para mostrar quem assume o esforço.',
+  'Num porto de aventura, use o embarque e a bagagem para mostrar quem toma a iniciativa.',
+  'Numa estrada de fantasia, use uma carruagem atolada para mostrar como a dupla reage ao imprevisto.',
+  'Num banquete medieval, use os preparativos para mostrar quem divide as tarefas.',
+  'Durante uma expedição, use um mapa molhado e a busca por abrigo para mostrar quem resolve o problema.',
+  'Num cais sob chuva, use a montagem de uma barraca para mostrar como a dupla se organiza.',
+];
+const lastPvDirection = new Map();
+
+export function buildPvScenePrompt(result) {
+  const { title, diagnosis, verdict, shareLine, vikingPercent, princesoPercent } = result;
+  const tier = princesoPercent === 100 ? 0 : vikingPercent >= 75 ? 3 : vikingPercent >= 50 ? 2 : 1;
+  const behaviors = [
+    'Ela faz todo o trabalho enquanto ele aproveita o passeio como hóspede VIP.',
+    'Ela carrega a maior parte do trabalho enquanto ele dá palpites ou oferece ajuda decorativa.',
+    'Mostre uma ajuda real dele e um vacilo visível na mesma cena.',
+    'Mostre os dois contribuindo de verdade, com humor na situação e cumplicidade entre eles.',
+  ];
+  const previous = lastPvDirection.get(tier);
+  const direction = pick(sceneDirections.filter(scene => scene !== previous));
+  lastPvDirection.set(tier, direction);
+
+  return [
+    'Crie uma fotografia realista horizontal para o resultado do jogo de humor adulto Princeso ou Viking. Estética de filme de aventura épica, com uma piada visual ácida e legível em tela pequena.',
+    'Os dados abaixo descrevem o resultado. Use-os como referência narrativa.',
+    JSON.stringify({ title, diagnosis, verdict, shareLine, vikingPercent, princesoPercent }),
+    behaviors[tier],
+    direction,
+    'Traduza a ironia específica do diagnóstico em ações e objetos visíveis. Use expressões naturais e poses sérias para acentuar o absurdo. Mantenha rostos e a ação principal no centro, para a imagem funcionar também no recorte horizontal do card.',
+    'Use apenas personagens adultos fictícios. Sem texto na imagem, marcas, logotipos, celebridades, nudez ou violência.',
+  ].join('\n');
+}
+
+export async function generatePvScene(result, { timeout = 25_000 } = {}) {
+  return generateImage(buildPvScenePrompt(result), timeout);
+}
