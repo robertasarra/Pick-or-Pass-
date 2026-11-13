@@ -11,8 +11,8 @@ const portraitOutfits=['camisa social azul-marinho aberta sobre camiseta branca'
 const portraitScenes=['uma rua urbana com prédios desfocados','uma orla de praia no fim de tarde','um café aconchegante com luzes quentes','um parque arborizado','uma cidade histórica com um ônibus vermelho desfocado ao fundo','uma marina com barcos desfocados ao fundo'];
 export async function generateOraclePortrait(profile,{timeout=25_000}={}){const prompt=`Fotografia de retrato realista, enquadramento quadrado do busto com o rosto centralizado, de um homem adulto fictício e inexistente, com aparência claramente entre 28 e 45 anos, sorrindo simpático para a câmera, com ${pick(portraitLooks)}, vestindo ${pick(portraitOutfits)}, em ${pick(portraitScenes)}, luz natural suave e fundo desfocado. Variação ${profile.seed%997}. A pessoa é 100% gerada por IA. Não retrate pessoa real, celebridade, texto, marca, logotipo, nudez, erotização, uniforme, estereótipo cultural ou aparência de menor de idade.`;return generateImage(prompt,timeout);}
 const pvScenes = {
- 'viking': 'homem contemporâneo forte e presente, de mangas arregaçadas, tomando a iniciativa para resolver uma tarefa em casa, expressão segura e atenta',
- 'viking-parcial': 'homem contemporâneo começando a ajudar em uma tarefa em casa, mas parando no meio com expressão de quem espera instruções',
+ 'viking': 'homem contemporâneo muito bonito, forte e atlético, com olhos azuis naturais bem visíveis e presença marcante, de mangas arregaçadas, tomando a iniciativa para resolver uma tarefa em casa, expressão segura e atenta',
+ 'viking-parcial': 'homem contemporâneo bonito, forte, de olhos azuis naturais bem visíveis, começando a ajudar em uma tarefa em casa, mas parando no meio com expressão de quem espera instruções',
  'princeso': 'homem contemporâneo arrumado, relaxado no sofá, pedindo que alguém pegue o controle remoto que está ao alcance da própria mão',
  'princeso-absoluto': 'homem contemporâneo impecavelmente arrumado, diante de um abajur com botão visível, fazendo uma expressão teatral de impotência enquanto espera que alguém aperte o botão'
 };
