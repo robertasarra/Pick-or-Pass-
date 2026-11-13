@@ -9,3 +9,14 @@
 @keyframes fortuneIntroScene{0%{filter:brightness(.16);transform:scale(1.08)}26%{filter:brightness(.35)}58%{filter:brightness(.84);transform:scale(1.03)}100%{filter:brightness(1);transform:scale(1)}}@keyframes fortuneCopyIn{0%,58%{opacity:0;transform:translateY(28px)}82%,100%{opacity:1;transform:translateY(0)}}
 @media(min-width:720px){.fortune-copy{padding-left:46px;padding-right:46px}.fortune-question-card{margin-left:0;margin-right:0;border-radius:27px}.fortune-quiz{padding-left:28px;padding-right:28px}.experience.fortune{grid-column:auto}}
 @media(prefers-reduced-motion:reduce){.fortune-scene,.fortune-copy,.fortune-start,.fortune-stars,.fortune-mist,.fortune-reveal-mist,.fortune-symbols,.fortune-aura,.fortune-fragment{animation:none!important;transition:none!important;opacity:1!important;transform:none!important}.fortune-skip{display:none}}
+
+.fortune-reveal-portrait {
+ position:absolute;z-index:3;top:51%;left:50%;width:min(42vw,26vh,220px);aspect-ratio:1;
+ transform:translate(-50%,-50%);border-radius:50%;clip-path:circle(50%);
+ background-repeat:no-repeat;box-shadow:inset 0 0 26px 9px #1c0739b3;
+ animation:fortunePortraitReveal 1.3s ease-out both;
+}
+.fortune-result-ball { display:grid;place-items:center;padding:0;overflow:hidden; }
+.fortune-portrait { width:86%;height:auto;aspect-ratio:1;clip-path:circle(50%); }
+@keyframes fortunePortraitReveal { from { opacity:0;filter:blur(12px); } to { opacity:1;filter:blur(0); } }
+@media(prefers-reduced-motion:reduce) { .fortune-reveal-portrait { animation:none; } }
