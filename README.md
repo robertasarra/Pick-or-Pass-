@@ -1,10 +1,11 @@
 # Pick or Pass
 
-Aplicação social mobile-first/PWA com a marca **Pick or Pass** em primeiro plano e três experiências integradas:
+Aplicação social mobile-first/PWA com a marca **Pick or Pass** em primeiro plano e quatro experiências integradas:
 
 - **Princeso ou Viking?** — teste ácido com pontuação privada no servidor.
 - **Oráculo do Amor** — escolhas guiadas e card ilustrado gerado no navegador.
 - **Dilema Diário** — uma escolha por dia e placar comunitário.
+- **A Vidente Leu Meu Destino** — consulta recreativa com 7–10 perguntas, vidente animada e galeria local de 24 crushes fictícios.
 
 ## Executar
 
@@ -32,6 +33,20 @@ Acesse `http://localhost:3000`. Sem `GEMINI_API_KEY`, a partida continua com o a
 - O retrato do Oráculo é sempre fictício, adulto e recreativo; nunca representa uma pessoa real ou previsão.
 - Rate limiting, limite do corpo e cabeçalhos Helmet estão habilitados.
 - Nenhuma resposta pessoal é persistida.
+- A Vidente usa uma sessão temporária assinada, calcula compatibilidade no servidor e nunca envia pesos ao navegador.
+- A galeria da Vidente é local e aprovada; nenhuma imagem é gerada durante a partida.
+- O Gemini varia perguntas da Vidente em uma única chamada validada. Sem Gemini, o banco local mantém a experiência completa.
+
+## A Vidente Leu Meu Destino
+
+Rotas do módulo:
+
+- `POST /api/vidente/iniciar`
+- `POST /api/vidente/responder`
+- `POST /api/vidente/finalizar`
+- `POST /api/vidente/compartilhar`
+
+O resultado combina 70% de compatibilidade com as respostas e 30% de surpresa controlada. O sorteio só considera personagens que compartilham pelo menos uma das três características predominantes e evita repetição imediata.
 
 ## Validação
 
