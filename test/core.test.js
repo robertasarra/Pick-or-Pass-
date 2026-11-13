@@ -22,5 +22,22 @@ test('Vidente cria rodadas de sete a dez perguntas e não expõe característica
 test('validador da Vidente recusa dados invasivos e pacote fora do tamanho',()=>{const safe=Array.from({length:7},(_,i)=>({text:`Qual energia divertida número ${i} combina com o encontro?`,options:[{text:'Uma boa conversa',traits:['comunicacao']},{text:'Uma aventura leve',traits:['aventura']},{text:'Uma risada sincera',traits:['humor']}]}));assert.equal(validateFortunePackage({questions:safe},7).length,7);const unsafe=JSON.parse(JSON.stringify(safe));unsafe[0].text='Qual é o seu endereço completo para o encontro?';assert.throws(()=>validateFortunePackage({questions:unsafe},7),/inválida/);assert.throws(()=>validateFortunePackage({questions:safe.slice(1)},7),/inválido/)});
 test('respostas influenciam o arquétipo e fator surpresa não escolhe incompatível',()=>{const round=createFortuneRound({count:7,rng:()=>0}),answers=Object.fromEntries(round.map(question=>[question.roundId,question.options[0].id])),traits=scoreFortuneRound(round,answers),character=selectFortuneCharacter({topTraits:traits,rng:()=>.99});assert.ok(character.caracteristicasCompativeis.some(trait=>traits.includes(trait)))});
 test('personagem não se repete imediatamente',()=>{const round=createFortuneRound({count:7,rng:()=>0}),answers=Object.fromEntries(round.map(question=>[question.roundId,question.options[0].id])),first=buildFortuneResult({questions:round,answers,rng:()=>0}),second=buildFortuneResult({questions:round,answers,recentIds:new Set([first.character.id]),rng:()=>0});assert.notEqual(first.character.id,second.character.id)});
-test('resultado usa somente personagem da galeria e card público não inclui respostas',()=>{const round=createFortuneRound({count:10}),answers=Object.fromEntries(round.map(question=>[question.roundId,question.options[0].id])),result=buildFortuneResult({questions:round,answers}),raw=JSON.stringify(result);assert.ok(FORTUNE_CHARACTERS.some(character=>character.id===result.character.id));assert.ok(!raw.includes(Object.values(answers)[0]));assert.match(result.disclaimer,/entretenimento/)});
+test('resultado usa somente personagem da galeria e card público não inclui respostas', () => {
+ const questions = createFortuneRound({ count: 10, rng: () => 0 }).map(question => ({
+  ...question,
+  options: question.options.map((option, index) => ({
+   ...option,
+   id: `private-answer:${question.roundId}:${index}`
+  }))
+ }));
+ const answers = Object.fromEntries(questions.map(question => [question.roundId, question.options[0].id]));
+ const result = buildFortuneResult({ questions, answers, rng: () => 0 });
+ const raw = JSON.stringify(result);
+ assert.ok(FORTUNE_CHARACTERS.some(character => character.id === result.character.id));
+ for (const [roundId, optionId] of Object.entries(answers)) {
+  assert.ok(!raw.includes(roundId), 'O resultado expôs o ID privado da pergunta');
+  assert.ok(!raw.includes(optionId), 'O resultado expôs o ID privado da resposta');
+ }
+ assert.match(result.disclaimer, /entretenimento/);
+});
 test('sessão assinada rejeita token adulterado',()=>{const signer=createRoundSigner(Buffer.alloc(32,7)),token=signer.sign('rodada-segura');assert.equal(signer.verify(token),'rodada-segura');assert.equal(signer.verify(`${token}x`),null);assert.equal(signer.verify('invalido'),null)});
