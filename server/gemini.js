@@ -13,11 +13,18 @@ export async function generateOraclePortrait(profile,{timeout=25_000}={}){const 
 const pvScenes = {
  'viking': 'homem contemporâneo muito bonito, forte e atlético, com olhos azuis naturais bem visíveis e presença marcante, de mangas arregaçadas, tomando a iniciativa para resolver uma tarefa em casa, expressão segura e atenta',
  'viking-parcial': 'homem contemporâneo bonito, forte, de olhos azuis naturais bem visíveis, começando a ajudar em uma tarefa em casa, mas parando no meio com expressão de quem espera instruções',
- 'princeso': 'homem contemporâneo arrumado, relaxado no sofá, pedindo que alguém pegue o controle remoto que está ao alcance da própria mão',
- 'princeso-absoluto': 'homem contemporâneo impecavelmente arrumado, diante de um abajur com botão visível, fazendo uma expressão teatral de impotência enquanto espera que alguém aperte o botão'
+ 'princeso': 'homem contemporâneo arrumado, relaxado no sofá, pedindo que alguém pegue um objeto que está ao alcance da própria mão',
+ 'princeso-absoluto': 'homem contemporâneo impecavelmente arrumado, diante de um aparelho com botão visível, fazendo uma expressão teatral de impotência enquanto espera que alguém aperte o botão'
+};
+
+const pvSceneDetails = {
+ 'viking': ['instalando uma prateleira', 'preparando o jantar', 'organizando as compras', 'consertando uma bicicleta', 'arrumando a mesa'],
+ 'viking-parcial': ['uma prateleira pela metade', 'uma receita que largou no meio', 'uma bicicleta parcialmente montada', 'uma mesa ainda por arrumar', 'compras esquecidas no chão'],
+ 'princeso': ['um controle remoto', 'uma xícara de café', 'um copo de água', 'um carregador de celular', 'um par de pantufas'],
+ 'princeso-absoluto': ['o botão de um abajur', 'o botão de um ventilador', 'o botão de um controle remoto', 'o botão de uma cafeteira', 'o botão de uma caixa de som']
 };
 
 export async function generatePvScene(profile, { timeout = 12_000 } = {}) {
- const prompt = `Foto editorial realista e bem-humorada, quadrada 1:1, de ${pvScenes[profile]}. Homem fictício adulto, aparência e roupa variadas, luz natural, rosto e gesto principais centralizados, com margem em todos os lados. Preencha toda a imagem sem bordas. Variação visual ${Math.random().toString(36).slice(2)}. Sem fantasias, capacetes, coroas, barcos, marcas, letras, celebridades ou pessoas reais.`;
+ const prompt = `Foto editorial realista e bem-humorada, quadrada 1:1, de ${pvScenes[profile]}. Elemento em destaque na cena: ${pick(pvSceneDetails[profile])}. Homem fictício adulto, aparência e roupa variadas, luz natural, rosto e gesto principais centralizados, com margem em todos os lados. Preencha toda a imagem sem bordas. Variação visual ${Math.random().toString(36).slice(2)}. Sem fantasias, capacetes, coroas, barcos, marcas, letras, celebridades ou pessoas reais.`;
  return generateImage(prompt, timeout, { aspectRatio: '1:1' });
 }

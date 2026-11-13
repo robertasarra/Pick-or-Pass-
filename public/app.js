@@ -7,7 +7,35 @@ const loading=['Inspecionando o barco…','Procurando sinais de remada…','Medi
 async function startPv(){show('loading');let n=0,cycle=setInterval(()=>$('#loadingText').textContent=loading[++n%loading.length],850);try{const r=await fetch('/api/pv/round',{method:'POST'});if(!r.ok)throw Error();({sessionId:pvSession,questions:pvQuestions}=await r.json());pvIndex=0;pvAnswers={};clearInterval(cycle);renderPv();show('pvQuiz')}catch{clearInterval(cycle);show('pvIntro');toast('A expedição atrasou. Tente novamente.')}}
 function renderPv(){const q=pvQuestions[pvIndex];$('#pvCount').textContent=`${pvIndex+1}/${pvQuestions.length}`;$('#pvBar').style.width=`${(pvIndex+1)/pvQuestions.length*100}%`;$('#pvAxis').textContent=q.axis.replaceAll('_',' ');$('#pvQuestion').textContent=q.text;$('#pvAnswers').replaceChildren(...q.alternatives.map((a,i)=>button(a.text,()=>choosePv(q.id,a.id),`Alternativa ${i+1}`)))}
 function choosePv(qid,aid){pvAnswers[qid]=aid;if(++pvIndex<pvQuestions.length)renderPv();else finishPv()}
-async function finishPv(){show('analysis');try{const r=await fetch('/api/pv/result',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({sessionId:pvSession,answers:pvAnswers})});pvResult=await r.json();if(!r.ok)throw Error();const map={pvTitle:'title',pvCardTitle:'title',vikingPct:'vikingPercent',princesoPct:'princesoPercent',pvShareLine:'shareLine',pvDiagnosis:'diagnosis',talent:'greatestTalent',warning:'warningSign',verdict:'verdict'};for(const [id,key]of Object.entries(map))$(`#${id}`).textContent=id.endsWith('Pct')?`${pvResult[key]}%`:pvResult[key];let cardDiagnosis=$('#pvCardDiagnosis');if(!cardDiagnosis){cardDiagnosis=document.createElement('p');cardDiagnosis.id='pvCardDiagnosis';cardDiagnosis.style.cssText='font-size:13px;color:#d6deed;border-left:3px solid #ffca38;padding-left:10px';$('#pvShareLine').before(cardDiagnosis)}cardDiagnosis.textContent=pvResult.diagnosis;let seal=$('#pvSeal');if(!seal){seal=document.createElement('strong');seal.id='pvSeal';seal.style.cssText='display:block;margin:14px 0;padding:12px;border:4px double #ffca38;color:#ffca38;text-align:center;transform:rotate(-2deg);font-size:18px';$('#pvShareLine').after(seal)}seal.textContent=pvResult.seal||'';seal.style.display=pvResult.seal?'block':'none';let scene=$('#pvScene');if(!scene){scene=document.createElement('img');scene.id='pvScene';scene.alt='Cena satírica do veredito';scene.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover';$('#pvMeme').append(scene)}pvResult.portrait=`/assets/pv-${pvResult.visualProfile}.webp`;if(pvResult.cardImageDataUrl){const generated=await loadPortrait(pvResult.cardImageDataUrl).catch(()=>null);if(generated)pvResult.portrait=pvResult.cardImageDataUrl}scene.src=pvResult.portrait;$('#pvMeme').classList.toggle('princeso',pvResult.princesoPercent>pvResult.vikingPercent);show('pvResult')}catch{show('pvIntro');toast('A sessão expirou. Vamos novamente.')}}
+const pvPortraitCount = 10;
+const pvPortraitHistory = new Map();
+
+function nextPvPortrait(profile) {
+ const key = `pick-or-pass:portraits:v1:${profile}`;
+ let used;
+ try {
+  const saved = JSON.parse(window.localStorage.getItem(key));
+  if (Array.isArray(saved)) used = [...new Set(saved.filter(index => Number.isInteger(index) && index >= 1 && index <= pvPortraitCount))];
+ } catch {
+  // The in-memory rotation still works when browser storage is unavailable.
+ }
+ used ??= pvPortraitHistory.get(profile) ?? [];
+ const last = used.at(-1);
+ if (used.length === pvPortraitCount) used = [];
+ const available = Array.from({length:pvPortraitCount}, (_, index) => index + 1)
+  .filter(index => index !== last && !used.includes(index));
+ const next = available[Math.floor(Math.random() * available.length)];
+ used.push(next);
+ pvPortraitHistory.set(profile, used);
+ try {
+  window.localStorage.setItem(key, JSON.stringify(used));
+ } catch {
+  // Keep this tab's rotation in memory.
+ }
+ return next === 1 ? `/assets/pv-${profile}.webp` : `/assets/pv/${profile}-${next}.webp`;
+}
+
+async function finishPv(){show('analysis');try{const r=await fetch('/api/pv/result',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({sessionId:pvSession,answers:pvAnswers})});pvResult=await r.json();if(!r.ok)throw Error();const map={pvTitle:'title',pvCardTitle:'title',vikingPct:'vikingPercent',princesoPct:'princesoPercent',pvShareLine:'shareLine',pvDiagnosis:'diagnosis',talent:'greatestTalent',warning:'warningSign',verdict:'verdict'};for(const [id,key]of Object.entries(map))$(`#${id}`).textContent=id.endsWith('Pct')?`${pvResult[key]}%`:pvResult[key];let cardDiagnosis=$('#pvCardDiagnosis');if(!cardDiagnosis){cardDiagnosis=document.createElement('p');cardDiagnosis.id='pvCardDiagnosis';cardDiagnosis.style.cssText='font-size:13px;color:#d6deed;border-left:3px solid #ffca38;padding-left:10px';$('#pvShareLine').before(cardDiagnosis)}cardDiagnosis.textContent=pvResult.diagnosis;let seal=$('#pvSeal');if(!seal){seal=document.createElement('strong');seal.id='pvSeal';seal.style.cssText='display:block;margin:14px 0;padding:12px;border:4px double #ffca38;color:#ffca38;text-align:center;transform:rotate(-2deg);font-size:18px';$('#pvShareLine').after(seal)}seal.textContent=pvResult.seal||'';seal.style.display=pvResult.seal?'block':'none';let scene=$('#pvScene');if(!scene){scene=document.createElement('img');scene.id='pvScene';scene.alt='Cena satírica do veredito';$('#pvMeme').append(scene)}const generated=pvResult.cardImageDataUrl && await loadPortrait(pvResult.cardImageDataUrl).catch(()=>null);pvResult.portrait=generated?pvResult.cardImageDataUrl:nextPvPortrait(pvResult.visualProfile);scene.src=pvResult.portrait;$('#pvMeme').classList.toggle('princeso',pvResult.princesoPercent>pvResult.vikingPercent);show('pvResult')}catch{show('pvIntro');toast('A sessão expirou. Vamos novamente.')}}
 async function startOracle(){show('loading');$('#loadingText').textContent='Acendendo a esfera do futuro…';try{const r=await fetch('/api/oracle/questions');({sessionId:oracleSession,questions:oracleQuestions}=await r.json());oracleIndex=0;oracleAnswers={};renderOracle();show('oracleQuiz')}catch{show('oracleIntro');toast('O Oráculo ficou nebuloso. Tente novamente.')}}
 function renderOracle(){const q=oracleQuestions[oracleIndex];$('#oracleCount').textContent=`${oracleIndex+1}/${oracleQuestions.length}`;$('#oracleBar').style.width=`${(oracleIndex+1)/oracleQuestions.length*100}%`;$('#oracleQuestion').textContent=q.text;$('#oracleAnswers').replaceChildren(...q.options.map((a,i)=>button(a.text,()=>chooseOracle(q.id,a.id),`Escolha ${i+1}`)))}
 function chooseOracle(qid,aid){oracleAnswers[qid]=aid;if(++oracleIndex<oracleQuestions.length)renderOracle();else finishOracle()}
