@@ -1,0 +1,25 @@
+[
+  {
+    "engine": "chromium",
+    "emulated_device": "Pixel 5",
+    "shared_file": {
+      "files": [
+        {
+          "type": "image/png",
+          "size": 1566436
+        }
+      ],
+      "url": "http://127.0.0.1:3001/"
+    },
+    "download": "princeso-ou-viking-meme.png",
+    "screen": {
+      "overflow": false,
+      "fit": "contain"
+    },
+    "tiles_rendered": 30,
+    "api_not_cached": true,
+    "errors": [],
+    "physical_installation_tested": false,
+    "native_share_sheet_tested": false
+  }
+]
