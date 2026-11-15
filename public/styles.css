@@ -4,3 +4,5 @@
 #pvMeme{height:clamp(260px,75vw,440px);background:#081525}#pvScene{object-fit:contain!important}.percent{min-width:0}.percent b{min-width:0}.percent i{font-size:clamp(20px,7vw,28px)}
 #toast{opacity:0;pointer-events:none}#toast.show{opacity:1}
 .install-help{max-width:580px;margin:16px auto 32px;padding:0 20px;color:#a8b3ca;font-size:13px}.install-help summary{cursor:pointer;text-align:center}.privacy-settings[hidden]{display:none}
+
+.pv-intro-brand{display:flex;justify-content:center;margin:24px 0 12px}.pv-intro-brand img{width:112px;height:112px;object-fit:contain;border-radius:24px;border:1px solid #02d9f566;box-shadow:0 10px 32px #0005,0 0 26px #02d9f51a}
