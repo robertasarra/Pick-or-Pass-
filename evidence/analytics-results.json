@@ -1,0 +1,14 @@
+{
+  "consent_denied_no_google_requests": true,
+  "events_checked": [
+    "page_view",
+    "game_start",
+    "game_complete",
+    "pv_result",
+    "card_download",
+    "share_action",
+    "pwa_install"
+  ],
+  "revocation_stops_events": true,
+  "external_transmission": "none; SDK stubbed; test-only ID; not real usage"
+}

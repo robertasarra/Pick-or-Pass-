@@ -21,7 +21,7 @@ Acesse `http://localhost:3000`. Sem `GEMINI_API_KEY`, a partida continua com o a
 
 - `GEMINI_API_KEY`: chave do Google AI Studio, usada somente no servidor.
 - `GEMINI_MODEL`: padrão `gemini-2.5-flash`.
-- `GEMINI_IMAGE_MODEL`: padrão `gemini-3.1-flash-image`, usado para o retrato fictício do Oráculo.
+- `GEMINI_IMAGE_MODEL`: modelo opcional do retrato fictício do Oráculo, utilizado apenas com geração dinâmica explicitamente habilitada.
 - `PORT`: padrão `3000`.
 - `SESSION_TTL_MS`: validade da sessão, padrão 30 minutos.
 
@@ -65,3 +65,14 @@ Este projeto precisa de um serviço Node (Render, Railway, Fly.io ou equivalente
 ## Rollback
 
 Reverta o commit da funcionalidade ou publique temporariamente `legacy/` como site estático. A aplicação atual não possui migration nem banco externo.
+
+
+## Estabilização e tração (POP-FIX)
+
+Imagens de Princeso ou Viking são locais: 30 cenas fotográficas fictícias em três pranchas indexadas; histórico dos últimos cinco IDs por sessão do navegador. O jogo não depende de geração de imagem em tempo real.
+
+- `GEMINI_FALLBACK_MODELS`: lista opcional separada por vírgulas, somente modelos previamente autorizados e com gratuidade/cota confirmadas. A API valida acesso ao catálogo antes de gerar. Ausência de modelo mantém o acervo local.
+- `GEMINI_DYNAMIC_IMAGES`: padrão desabilitado; não habilitar sem verificar elegibilidade e custos do projeto.
+- `GA4_MEASUREMENT_ID`: ID real opcional. Sem ID válido e consentimento, não há transmissão ao GA4.
+
+Consulte [evidências e pendências](docs/POP-FIX-2026-11-14-001.md) e [métricas/painel privado](docs/ANALYTICS.md). Os contadores de votos e sessões são voláteis; não representam uma base histórica de usuários.

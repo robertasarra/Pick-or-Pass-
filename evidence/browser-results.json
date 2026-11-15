@@ -1,0 +1,76 @@
+{
+  "viewports": [
+    {
+      "viewport": [
+        320,
+        568
+      ],
+      "overflow": false,
+      "loaded": true,
+      "emojiCount": 0
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "overflow": false,
+      "loaded": true,
+      "emojiCount": 0
+    },
+    {
+      "viewport": [
+        844,
+        390
+      ],
+      "overflow": false,
+      "loaded": true,
+      "emojiCount": 0
+    },
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "overflow": false,
+      "loaded": true,
+      "emojiCount": 0
+    }
+  ],
+  "errors": [],
+  "installability": {
+    "installabilityErrors": []
+  },
+  "manifest": {
+    "name": "Pick or Pass — experiências para escolher e compartilhar",
+    "short_name": "Pick or Pass",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#081525",
+    "theme_color": "#081525",
+    "lang": "pt-BR",
+    "icons": [
+      {
+        "src": "/assets/logo-180.jpg",
+        "sizes": "180x180",
+        "type": "image/jpeg"
+      },
+      {
+        "src": "/assets/logo.jpg",
+        "sizes": "1254x1254",
+        "type": "image/jpeg"
+      },
+      {
+        "src": "/assets/app-icon.svg",
+        "sizes": "any",
+        "type": "image/svg+xml",
+        "purpose": "any"
+      }
+    ],
+    "id": "/",
+    "scope": "/",
+    "orientation": "any"
+  },
+  "download": "princeso-ou-viking-meme.png",
+  "four_experiences_passed": true
+}
